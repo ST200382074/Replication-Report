@@ -34,9 +34,8 @@ library(Matrix)
 library(readxl)
 library(readr)
 library(janitor)
-```
 
-```{r data}
+#Data
 data <- read_excel("C:/Users/User/Downloads/Rproj/Rproj/data/data with headings.xlsx") 
 ```
 
