@@ -1,0 +1,185 @@
+title: "SMI205 Preregistration form"
+author: '200382074'
+date: "22/05/2024"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+  pdf_document:
+    toc: true
+    toc_depth: '2'
+---
+
+```{r setup, include=FALSE}
+# By default, the code chunks are hidden. 
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r packages, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(ggplot2)
+library(readxl)
+library(modelsummary)
+library(vtable)
+library(summarytools)
+library(car)
+```
+
+# 1. My replication project
+__What is the paper?__
+
+The paper examines If there is a link between victimisation and psychological adjustments was moderated by classroom defending norms through use of longitudinal designs. This topic was looked at because it aimed to explain why defending norms either has beneficial or adverse effects on victims adjustments. This research was carried out by focusing on two cognitive processes, which are victims casual attributes and social comparisons, these are used in how peers cope in stressful events – in this case victimisation. Before looking at the data, the study currently indicates that many victims do not appear to gain from being in a classroom that has a high defending norm. But stable victims may have more of a psychological problem in high defending norms. 
+
+The results indicate that encouraging peers to defend victimised classmates may not be enough to help victims. The interclass correlation carried out shows that majority of the variance was due to differences between each other rather than the classrooms. Finally, the data showed that classrooms do have a norm and that higher victimisation was believed to be associated with higher self-blame and bully-blame plus, had worse psychological adjustments. 
+
+
+__This is a preregistration of an extension project for the following study:__
+
+> Laninga-Wijnen, L., Garandeau, C. F., Malamut, S. T., & Salmivalli, C. (2024). The longitudinal role of classroom defending norms in victims’ psychological adjustment, causal attributions, and social comparisons.Developmental Psychology, 60(3), 522–544. https://doi.org/10.1037/dev0001629  
+
+__In my replication project I am focusing on the following argument made in the study:__
+
+- Original Claim (Table 3, Pg 10) <-  'examining defending norms in the link between victimization and psychological adjustment' 
+
+__Argument of the claim__
+
+What this paper wanted to test was to see if there was an explanation why victims would do either better or worse in classrooms with high versus low defending norms however, from previous results it was shown that defending norms do not affect victims’ psychological adjustment. Therefore, instead of carrying out a mediation test, Claim 3 tests to see if casual attributes and social comparisons have an association with defending norms.
+
+__Pattern of behaviour in classrooms__
+
+This claim showed a few interesting results:
+
+- Girls are more likely to blame themselves and bullies for victimisation
+- The more girls in a class the higher the self blame 
+- The higher the defending norms are, the higher bully blame is 
+- Self blame and bully are stable constructs 
+- When testing classroom levels, grades and victimisation had no main significant main model effect 
+
+# 2. Planned project extention
+
+## 2.1. Rationale for a new hypothesis
+
+> Hypothesis: Examining defending norms in link to victims psychological adjustments and victimisation across each seperate grades 4-9. 
+ 
+__Reason why__
+
+I am carrying out a 'robustness check, where the researcher examines how certain “core” regression coefficient estimates behave when the regression specification is modified by adding or removing regressors' (sciencedirect.com, lun.X and White.H, 2013). The way in which i will be carrying out a robustness check is by using the same data and variables however, expanding the grade variable. The grade variable will be broken up and looked at individually so, grades 4-9 rather than as a cohort. 
+
+The reason behind keeping the claim the same but looking at the grades one by one is because the overall claim gave vital information such as bully blame increased as defending blame did or that more girls in a class the higher self blame. however, although we got result like this, we also, learnt that the variable grade was not significant to the hypothesis/claim. Therefore, i am wanting to measure each grade against the dependent variables and see if this result alters. It is beneficial to measure the variable as individual groups rather than one complete group because each grade may consist of different amount of people/genders which alter the results such as more female than male blame themselves and bullies for victimisation, whereas if we looked at this via each grade it may show different result in each grade. 
+
+As each grade differs in gender and population this may alter the output of which gender gets victimisied more or higher self-blame ect., but by looking at each grade independently it can show if as people get older does the victimisation reduce or even if psychological adjustments change throughout the years - All three of these studies show steady and substantial year by year decreases in reports of being bullied, by both boys and girls who are aged 8-16 years (Olweus, 1993: Whitney and Smith, 1993: Rigby, 1996).
+
+
+## 2.2. Prediction
+
+My prediction for my hypothesis is that when looking at the grade variable i expect for the values to decrease as the grades go up because a few studies show that year by year reports of being bullied decreases (Olweus, 1993: Whitney and smith, 1993: Rigby, 1996).I also, expect the higher victimisation is the higher self blame is for that grade, because effects of bullying have a serious lasting negative impact on mental health (Louis A, 2021) which leads to self blame is said to be associated with a wide range of clinical problems: depression, self criticism, guilt, shame (Beck et al, 1979: Roberts et al, 1998: Tilghman et al, 2008). From this research this makes me expect that defending norms decreases when self-blame increases.  
+
+# 3. Data
+
+- Original_data - Original data without headings - consists of all data in the study (Laninga-Wijnen L, et al. 2024)
+
+- data - original data with headings - consists of all data in the study. (created by me using excel) 
+
+- dataset - original data with headings - made smaller by only including the data i need for my models (defending norms,
+victimisation, self blame, bully blame, Gender & Grade).
+
+'dataset' will be created in the code for the research report and manipulated but 'original data' and 'data with headings' are already pre-made data saved onto my computer. this dataset is the final alteration of the dataset and used to create the main effects model.
+
+# 4. Data analysis plan
+
+## 4.1. Model specification
+
+I will be using a linear mixed effects model (LMM's). I will only be using the individual predictor variables & Grade from the classroom level variables, these will be measured against self-blame W2 & bully-blame W1. 
+
+I will be doing this because the main effects model showed clearly the effects and allows for us to create a model that uses variables that may not be completely independent - meaning there may be other factors that impact the results . But, the original model will be changed by only coding the individual predictors as these will not be the means of the variables so more reliable than using values that are the overall average for that variable. 
+
+
+## 4.2. Variables
+The variables have been measured through a survey that was given to the students directly during class time and consisted of tick boxes that got peoples opinions on questions related to the research paper. The only questions manipulated other than removing missing data was the Grade variables by only looking at grades 4-9 and removing other grades, as these where the grades that consisted of the age groups wanted for the paper.
+
+ W1 = Time 1 September
+ 
+ W2 = Time 2 January 
+ 
+__Dependent variable(s):__
+
+1. Self-Blame W2
+2. Bully-Blame W2
+
+__Independent variables (IVs):__
+
+- Self Blame W1
+- Bully Blame W1
+- Gender (0 = Female, 1 = Male)
+- Grades (4,5,6,7,8,9)
+- Victimisation = being bullied at school 
+- defending norms (0-1) =  How likely someone is going to stand up to a bully, this can be through telling on them to confronting the bully. 
+
+## 4.3. Interference criteria
+I will use the standard p<0.05 criteria for determining if the statistical tests suggest that the results are significantly significant for both claims. Confidence interval for the first claim of comparing defending norms to self blame and bully blame because if a result is in the 95% interval it has a 5% chance of being incorrect. 
+
+## 4.4. Data exclusion
+No checks will be performed other than verification that each respondent answered each of the survey questions. If not answered it is classed as missing data.
+
+## 4.5. Missing data
+If a respondent refuses to answer or skips the question then that observation will not be included in the analysis. It was be changed to a 0 or -9999 which then will be removed as these symbolise a Null answer.
+
+## 4.6. Exploratory data anlysis
+
+Using Rstudio 4.3.1 to code my linear mixed model and bar charts that allow a visual component to the paper. 
+
+un-grouping the grade variable allows to see an effect across each grade in Finnish schools. Gender will be un-grouped for the bar chart but not the LMM model as i do not want to look at the effect between the two genders against the other variables. 
+
+missing values - gender was coded NA for those missing 
+
+The main focus for this paper, is the categorical variable Grade which i will be un-grouping the variable, which allows me to code a LMM with each separate grade (4,5,6,7,8,9) against the dependent variables. The purpose is to see if there is a link between the variables and any significant effect in each grades - when looked at as a cohort this altered the results as it didn't look at if different age groups impacts the defending norm and psychological adjustments.
+
+multivariate graphical - bar charts for these two points below 
+
+- Is the victimisation rate different across the Grades and between Genders
+
+- Link between Gender and psychological adjustments
+
+__why__ these two points above will be used as my explanatory section, i have broken the claim into two main points that separate the grouped variables which allows a closer look and easier to understand the trend of defending norms in schools. Firstly, i want to look at how many people get bullied across the grades and if this decreases as you age. After, i want to test female and male separately against self and bully blame to see if it supports the original findings of females more likely to blame themselves and bullies for victimisation but also, more girls in a class the higher self blame rather than test as a group.
+
+
+# 5. Session info
+
+This preregistration form was completed in the following R environment:
+
+```{r session}
+sessionInfo()
+```
+
+# 6. References
+Bartlett J. (2021). [OSF preregistration template.Rmd ](https://github.com/BartlettJE/BartlettJE.github.io/blob/master/RMarkdown-scripts/OSF%20preregistration%20template.Rmd). GitHub (accessed 03/05/2023)
+
+Bowman, S. D., DeHaven, A. C., Errington, T. M., Hardwicke, T. E., Mellor, D. T., Nosek, B. A., & Soderberg, C. K. (2020). OSF Prereg Template. https://doi.org/10.31222/osf.io/epgjd. OSF (accessed 03/05/2023)
+ 
+Laninga-Wijnen, L., Garandeau, C. F., Malamut, S. T., & Salmivalli, C. (2024). The longitudinal role of classroom defending norms in victims’ psychological adjustment, causal attributions, and social comparisons.Developmental Psychology, 60(3), 522–544. https://doi.org/10.1037/dev0001629 
+
+A survey of the nature and extent of bullying in junior/middle and secondary schools (tandfonline.com)
+
+Anti - Bullying alliance, Our definition of bullying (anti-bullyingalliance.org.uk), What is bullying? 
+
+Bullying in Schools and What to do About it, Ken Rigby, ACER, 1996, 299pp. | Journal of Psychologists and Counsellors in Schools | Cambridge Core
+
+Comittee for Children (2016), Why Don't Kids Report Bullying? | Committee for Children (cfchildren.org)
+
+Department of Education (2018) pg.7, Bullying-Evidence_from_LSYPE2__wave_3.pdf (publishing.service.gov.uk)  
+
+Dolly Dream (2023), Why do people bully? (dollysdream.org.au)
+
+Grubb, A., & Turner, E. (2012). Attribution of blame in rape cases: A review of the impact of rape myth acceptance, gender role conformity and substance use on victim blaming. Aggression and Violent Behavior, 17(5), 443-452.  
+
+Health Direct (2022), Bullying - why people bully and how to stop it
+
+Huitsing, G., Snijders, T. A. B., Van Duijn, M. A. J., & Veenstra, R. (2014). Victims, bullies, and their defenders: A longitudinal study of the coevolution of positive and negative networks. Development and Psychopathology, 26(3), 645–659. doi:10.1017/S0954579414000297
+
+Meter, D. J., & Card, N. A. (2015). Defenders of victims of peer aggression: Interdependence theory and an exploration of individual, interpersonal, and contextual effects on the defender participant role. Developmental Review, 38, 222–240. https://doi.org/10.1016/j.dr.2015.08.001
+
+Olweus, D. (1993). Bullying at school: What we know and what we can do. Malden, MA: Blackwell Publishing, 140 pp., $25.00. - Gredler - 2003 - Psychology in the Schools - Wiley Online Library
+
+Science Direct.com (2013), lun.X, White.H https://doi.org/10.1016/j.jeconom.2013.08.016
+
+Quabec.ca (2023) Effects of Stereotypes on Personal Development | Gouvernement du Québec 
