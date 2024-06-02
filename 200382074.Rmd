@@ -1,0 +1,590 @@
+---
+title: "SMI205 Replication Project"
+author: '200382074'
+date: "June 2024 (Academic Year 2023 ~ 2024)"
+output:
+  pdf_document:
+    toc: true
+    toc_depth: '2'
+  rmdformats::html_clean:
+    code_download: true
+    toc: true
+    toc_depth: 2
+    toc_float: true
+  word_document:
+    toc: true
+    toc_depth: '2'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Classroom defending norms in link to victims psychological adjustments and victimisation across grades 4-9
+
+### Rpubs Link: https://rpubs.com/ST200382074/1191398
+
+### Preregistration Form: https://rpubs.com/ST200382074/1191397 
+
+# Replicated Paper
+
+This project is based on the following paper:
+
+**The Longitudinal role of classroom defending norms in victims
+psychological adjustments, casual attributes and social comparisons.**
+
+Laninga-Wijnen, L., Garandeau, C. F., Malamut, S. T., & Salmivalli, C.
+
+Publishing dates: Recieved October 2022, Accepted July 2023 & first
+published October 2023 in the Developmental Psychology, 60(3), 522–544.
+
+*DOI APA PsychNet:* <https://doi.org/10.1037/dev0001629>
+
+## Workspace setup
+
+***Workspace setup***
+
+Below is my YAML setup
+
+> YAML setup / output: /rmdformats::html_clean: / code_download: yes
+> /toc: yes /toc_depth: 2 / toc_float: True
+
+Rmarkdown environment
+```{r environment, echo=FALSE, results='asis'}
+version[['version.string']]
+```
+
+```{r packages, message=FALSE, warning=FALSE}
+
+#calling all necessary libraries 
+library(tidyverse)
+library(ggplot2)
+library(readxl)
+library(modelsummary)
+library(vtable)
+library(summarytools)
+install.packages('laTex')
+library(car)
+```
+
+# 1. Introduction
+
+Bullying is typically The repetitive, intentional hurting of one person or group by another person or group, where the relationship involves an imbalance of power. Bullying can be physical, verbal or psychological. It can happen face-to-face or online (anti-bullying alliance, what is bullying?). Several studies show that as people grow older less bullying occurs (Olweus, 1993,1994; Whitney and Smith, 1993; Rigby, 1996) however, Following the interdependence theory (Meter & Card,2015), defenders are probably selective in choosing the victims they defend because there is a risk of being victimized as well (Huitsing et al., 2014), This can be linked to whose popular in classrooms, Gender stereotypes for example, conflicts between boys are easier to resolve and less dramatic (Quabec, 2023) therefore boys may not report being bullied.
+
+Therefore, in this paper i will be looking at classroom defending norms in the link of victimisation and psychological adjustments, this includes using Gender and Grades as the demographic variable when testing the links. 
+
+The original paper that is the base of this research replication/extension paper is titled ‘The longitudinal role of classroom defending norms in victims psychological adjustment, casual attributes and social comparisons’ by Laninga-Wijnen, L et.al (https://doi.org/10.1037/dev0001629), where it looked at explaining why defending norms may have either beneficial or adverse effects on victims adjustment, by focusing on victims casual attributes and social comparisons. The part of the paper I am replicating/extending is Table 3 which examines defending norms in the link between victimisation and psychological adjustment. The results of this claim were that females will self-blame more as well as the more people that bully blame the higher defending norms is, however Grades, and victimisation had no main significant effect. 
+  
+This is why for my extension project i am planning on ungrouping Grade and Gender, which will allow me to test the relationship of each Grade and both female and male against the other variables. The purpose behind this is to see if the result of there being no significant effect alters across the Grades and if this links to the research carried out around the topic. According to lun.X & White.H this is a robustness check because i am using the same data but a different method – expanding Grade variable – is conducted to test the hypothesis. (sciencedirect.com, lun.X and White.H, 2013)
+
+
+# 2.Data & Methods
+
+## 2.1. Data
+
+**Dataset:** The idea was taken from challenge project which aimed at
+identifying bullying causes in Finnish schools. The data set is private
+and accessible via emailing the author because as the participants are under 18, there data is kept private without written consent from there parents (Tietosuojavaltuutetun toimisto, n.d.)
+
+**Year:** 2020-2021, 3 waves but for this study we looked at waves 1 & 2
+(1 = September, 2 = January)
+
+**Location:** Finland
+
+**Population:** Grades 4 - 9 (students) 
+
+**Type of dataset:** Privatised (received from Laninga-Wijnen, L)
+
+**Number of observations:** 3338
+
+Below is the R code that was used to upload the data into the global environment.
+
+```{r original dataset, results='hide'}
+
+original_data <- read.csv('C:/Users/User/OneDrive/Documents/200382074/Research Project/Original Script/Challenge_3470_imputedEMvict2.dat')
+
+data <- read_excel("C:/Users/User/Downloads/Rproj/Rproj/data/data with headings.xlsx")
+```
+
+Below are the manipulated datasets that will be used in this report 
+
+```{r isolating the variables needed, results='hide'}
+
+datasets <- data.frame(data$nsvic_w1, data$nsblame_w1, data$nsblame_w2, data$nbblame_w1, data$nbblame_w2, data$Gendern, data$def_w1, data$Grade)
+
+descriptive <- data.frame(data$nsvic_w1, data$nsblame_w1, data$nbblame_w1, data$Gendern, 
+                   data$Grade, data$ClassID)
+```
+
+The dataset called ‘original_data’ is the dataset given to me by the author, the dataset called ‘data’ is where I have added the headings as the 'original_data' contained no headings which made it difficult to understand what meant what. The headings where found in the ReadMe file of the paper. 
+
+The next two datasets – ‘datasets’ and ‘descriptive’- are manipulated, where variable names are changed, removal of missing values and the Gender variable changed to categorical rather than numerical only for descriptive statistic purposes. ‘datasets’ and ‘descriptive’, consisting of the variables I was interested in and would be looking at. 
+
+
+```{r renaming variables, include=TRUE, message=FALSE, warning=FALSE}
+#Renaming Variables
+
+datasets <- rename(datasets, 
+                       victimisation_w1 = data.nsvic_w1)
+
+datasets <- rename(datasets, 
+                       selfblame_w1 = data.nsblame_w1) 
+
+datasets <- rename(datasets, 
+                       selfblame_w2 = data.nsblame_w2)
+
+datasets <- rename(datasets, 
+                       bullyblame_w1 = data.nbblame_w1)
+
+datasets <- rename(datasets, 
+                       bullyblame_w2 = data.nbblame_w2)
+
+datasets <- rename(datasets, 
+                       peernominated_defending = data.def_w1)
+
+datasets <- rename(datasets,
+                       Grade = data.Grade)
+
+datasets <- rename(datasets, 
+                       Gender = data.Gendern)
+
+view(datasets)
+
+
+descriptive <- rename(descriptive, 
+                       Gender = data.Gendern)
+
+descriptive <- rename(descriptive,
+                      Victimisation_w1 = data.nsvic_w1)
+
+descriptive <- rename(descriptive,
+                      selfblame_w1 = data.nsblame_w1)
+
+descriptive <- rename(descriptive,
+                      bullyblame_w1 = data.nbblame_w1)
+
+descriptive <- rename(descriptive,
+                      Grade = data.Grade)
+
+descriptive <- rename(descriptive, 
+                      amount = data.ClassID)
+
+view(descriptive)
+```
+Above I renamed the variables I was interested as this made understanding each variable easier.
+
+```{r looking at the variables, include=FALSE}
+
+head(datasets$victimisation_w1)
+table(datasets$victimisation_w1)
+
+head(datasets$selfblame_w1)
+table(datasets$selfblame_w1)
+
+head(datasets$selfblame_w2)
+table(datasets$selfblame_w2)
+
+head(datasets$bullyblame_w1)
+table(datasets$bullyblame_w1)
+
+head(datasets$bullyblame_w2)
+table(datasets$bullyblame_w2)
+
+head(datasets$Gender)
+table(datasets$Gender)
+
+head(datasets$peernominated_defending)
+table(datasets$peernominated_defending)
+
+head(datasets$Grade)
+table(datasets$Grade)
+
+```
+
+```{r removing NAs, include=TRUE}
+#removing missing data
+
+datasets$Gender[datasets$Gender <= -9999] <- NA
+datasets <- na.omit(datasets)
+
+summary(datasets$Gender)
+
+descriptive$Gender [descriptive$Gender == 0] <- 'female'
+
+descriptive$Gender [descriptive$Gender == 1] <- 'male'
+
+descriptive$Gender[descriptive$Gender <= -99999] <- NA
+descriptive <- na.omit(descriptive)
+
+head(descriptive$Gender)
+```
+I removed the value -9999 which meant ‘the student identified as neither female or male’ this came to 0.9% of the population, I recoded this value as NA so it appeared as missing data as I was not interested in those responses. Gender was the only variable with missing data.
+
+
+```{r overview, results='asis', echo=FALSE}
+knitr::kable(datasets[1:10, ], digits = 2, align = 'lccrr', xlabs = 4,
+             caption = "Table 1. Overview of the first 10 rows in the dataset") 
+```
+Table 1 shows the overview of the first 10 rows of data for the variables I am interested in. This table consists of 8 variables.  
+
+- Gender is 0-1: 0 = female and 1 = male.
+
+- Victimisation is a 5-point likert scale: 0 = not at all, 1 = once or twice, 2 = 2-3 times a month, 3 = once every week and 4 = several times a week. 
+
+- Self_blame and Bully_blame is measured on a 4-point likert scale: 0 = never the reason to 3 = always the reason. 
+
+- Defending norms is 0-1: 0 = nominated by nobody and 1 = nominated by everyone
+
+
+### Variable descriptive statistics
+
+Table 2. Descriptive statistics overall
+```{r descriptive, results='asis', echo=FALSE}
+
+sumtable(datasets)
+```
+Below I plot a bar plot, a coefficient plot, and a frequency table when looking at the victimisation rate against gender in the classrooms. Also, I plot a line plot and coefficient plot when looking at psychological attributes against gender. 
+
+
+#### BarPlots and coefficient plot
+
+## The victimisation rate in males and females across the grades 4-9 {.tabset}
+
+### Victimisation rate
+
+```{r barchart 1, include=TRUE, echo=FALSE}
+
+ggplot(descriptive, aes(fill = Gender , y = Victimisation_w1, x = Grade, width = 0.3))+
+  geom_bar (position = 'dodge', stat = 'identity')+
+  ggtitle("The victimisation rate in males and females across grades 4-9")+
+  ylab ('victimisation rate')
+
+```
+
+### Frequency Table 
+```{r freq, echo=FALSE, message=FALSE}
+freq <- table (datasets$victimisation_w1, datasets$Grade, descriptive$Gender)
+
+colSums(freq)
+
+```
+
+### Coefficient Plot 
+
+```{r coplot 1, echo=FALSE, warning=FALSE}
+models <- list()
+models[['female']]<- lm(Victimisation_w1 ~ Grade, descriptive)
+models[['male']]<- lm(Victimisation_w1 ~ Grade, descriptive)
+
+modelplot(models)+
+  geom_vline(xintercept = 0, lty = 2)+
+  labs(title = 'Victimisation rate across both Genders and Grades', 
+       subtitle = 'dependent variable is victimisation_w1',
+       size = 4)+
+  theme_minimal()
+
+```
+
+## comparison of psychological attributes effect one gender more than the other {.tabset}
+
+### Psychological Atrributes 
+
+```{r line plot, echo=FALSE, message=FALSE}
+
+ggplot(descriptive, aes(x = selfblame_w1, y = bullyblame_w1))+
+  geom_point()+
+  geom_smooth(se = FALSE)+
+  facet_grid(. ~ Gender)
+
+```
+
+### Coefficient Plot    `
+
+```{r coplot 2, echo=FALSE}
+
+model2 <- list()
+model2[['female']]<- lm(bullyblame_w1 ~ selfblame_w1, descriptive)
+model2[['male']]<- lm(bullyblame_w1 ~ selfblame_w1, descriptive)
+
+color_map <- c("male" = "darkblue",
+               "female" = "darkred")
+
+
+modelplot(model2)+
+  geom_vline(xintercept = 0, lty = 2)+
+  labs(title = 'Which Gender selfblames more compared to bullyblames', 
+       size = 4)+
+  scale_color_manual(values = color_map)+
+  theme_classic()
+  
+```
+
+## 2.2 Methods
+
+The original paper conducted a linear mixed effects model, that contained random slopes, a main effects model, and a cross-level interaction model which looked at casual attributes (self-blame T2 and bully-blame T2) as outcomes, also this model looked at the variable Grade as a cohort. This replication paper uses the same model (linear mixed effects model) however, I am only focusing on the individual level predictors, bringing in classroom level predictor which is Grade and a singular cross-level which is Grade against victimisation. 
+
+For the final model i will doing the same LMM table but only including Grade and Grade against victimisation, as i am more interested in the whole survey responses than using the mean of the variables to predict an effect. The other LMM model i will be doing is a scatter graph, where i am only wanting to look at the individual Grades against defending norms and victimisation, to see if as age groups go up how does victimisation and defending norms differ.
+
+As for the descriptive statistic section of the paper, I will be looking at Victimisation against each Grade 4-9 and both genders, the purpose being that I want to see if the research backs up the findings that females are more likely to report bullying (Department for Education, 2018, pg. 7) plus more visualised way of understanding the results. Apart of this statistic I have included a frequency table which shows the amount of victimisation across each grade and the difference in genders of victimisation via numeric form, as this can provide a possible pattern across the genders and grades and where victimisation might spike. 
+The next part of the descriptive statistics I looked at is psychological attributes (self-blame and bully-blame) effect against Gender, the purpose being that research shows that males will be more likely to bully-blame than females (Grubb.A & Turner.E, 2012) and I wanted to show this with the dataset I have and if it backs up the same point. 
+
+# 3. Results 
+
+Looking at victimisation against defending norms across the grades
+
+```{r model1, echo=FALSE, message=FALSE, warning=FALSE}
+scatterplot(victimisation_w1 ~ peernominated_defending|Grade, data = datasets,
+            type.diag = 'hist', group = 'group')
+
+```
+
+## LMM model 
+
+```{r models, include=TRUE, warning=FALSE}
+
+within1 <- lm(selfblame_w2 ~ selfblame_w1 + Grade + Gender + peernominated_defending + victimisation_w1 + Grade * victimisation_w1, data = datasets)
+
+within2 <- lm(bullyblame_w2 ~ bullyblame_w1 + Grade +  Gender + peernominated_defending + victimisation_w1 + Grade * victimisation_w1, data = datasets)
+
+```
+
+```{r LMM, echo = TRUE, warning=FALSE}
+
+sjPlot::tab_model(within1, within2)
+
+```
+
+# 4. Conclusion
+
+This report looks at classroom defending norms in link to victims' psychological adjustments and victimisation across grades 4-9. What I did was plot graphs and Linear mixed models to provide results and more in-depth findings of the LMM model. The statistics provided effects between fewer variables, but this still provided a possible reason behind the findings of the LMM model. Finally, the LMM graph looks at defending norms in link to victimisation and Grades to prove the original findings from the paper and research done that as victimisation increases so does defending norms but, also that as the grades go up victimisation should decrease. 
+
+What was found out when looking at the statistics for victimisation against gender and grade was that Females get bullied more than males. Grade does not affect victimization or gender however, even though all grades had some levels of bullying Grades 7 and 9 had bullying that happened several times a week. Next, I looked at Gender against psychological attributes and found that females self-blame themselves more but tended not to blame others/how they acted for feeling this way compared to males. These findings backed up the Department for Education 2018, pg7 and Grubbs.A and Turner. E 2012 research where females report bullying more and males bully-blames more.
+
+When looking at the LMM table estimates it shows that Gender, defending norms, and Grade * Victimisation are negative for both self-blame and bully-blame. Also, Grade and victimisation when independently tested are positive. Next, I looked at the Confidence intervals (CI) where Grade, defending norms, and victimisation for bully-blame and self-blame have wide CIs, making it hard to exclude whether they are strong or weak. Finally, the P value shows that only defending norms when measured against self-blame has no effect. Still, for bully-blame Defending norms, Victimisation and Grade * Victimisation has no significant effect because they are above 0.1. 
+
+The other model was an LMM graph that only measured Grades against defending norms and victimisation. This Graph simply shows that Grade 9 has low defending norms but a high victimisation rate whereas Grade 5 is the opposite. What this shows is that if victimisation is high defending norms lowers. 
+Finally, the results from the descriptive statistics and LMM models show it backs up original paper that females self-blame more, but victimisation and grades do have an effect because they both have P values of <0.001 which is good evidence for the hypothesis. When looking at the research, my tables/graphs cause Whitney and Smith, Rigby, and Olweus’ finding that as you age bullying decreases to be incorrect, because what I found was that age doesn’t affect victimisation as it can happen any time, but typically females are bullied more. 
+
+The limitation of the paper are that the respondents may not be honest due to concerns around consequences because typically Students do not report bullying due to fear of retaliation, reputation as a ‘rat’, they don’t recognise bullying happening, feel ashamed, afraid or even powerless. (committee for children,2016). Also, these results and findings do not give the reason behind victimisation, People may bully because of power, low self-esteem, lack of remorse, anger or jealousy, social and cultural factors, and even being bullied. (Health Direct, 2022: Dolly Dream, 2023). By having questions that answer why someone bullies or may be tempted to, this may help understand why it happens but also, people bully-blame and self-blame. Next time what would be good is to look into reasons for bullying but, then go into if the reason for bullying is high due to males being expected to act a specific way or due to peer pressure how does this impact people's self-blame and bully-blaming? 
+
+# 5. References
+
+***Main Paper:*** <https://psycnet.apa.org/fulltext/2024-14052-001.html>
+
+A survey of the nature and extent of bullying in junior/middle and secondary schools (tandfonline.com)
+
+Anti - Bullying alliance, Our definition of bullying (anti-bullyingalliance.org.uk), What is bullying? 
+
+Bullying in Schools and What to do About it, Ken Rigby, ACER, 1996, 299pp. | Journal of Psychologists and Counsellors in Schools | Cambridge Core
+
+Comittee for Children (2016), Why Don't Kids Report Bullying? | Committee for Children (cfchildren.org)
+
+Department of Education (2018) pg.7, Bullying-Evidence_from_LSYPE2__wave_3.pdf (publishing.service.gov.uk)  
+
+Dolly Dream (2023), Why do people bully? (dollysdream.org.au)
+
+Grubb, A., & Turner, E. (2012). Attribution of blame in rape cases: A review of the impact of rape myth acceptance, gender role conformity and substance use on victim blaming. Aggression and Violent Behavior, 17(5), 443-452.  
+
+Health Direct (2022), Bullying - why people bully and how to stop it
+
+Huitsing, G., Snijders, T. A. B., Van Duijn, M. A. J., & Veenstra, R. (2014). Victims, bullies, and their defenders: A longitudinal study of the coevolution of positive and negative networks. Development and Psychopathology, 26(3), 645–659. doi:10.1017/S0954579414000297
+
+Meter, D. J., & Card, N. A. (2015). Defenders of victims of peer aggression: Interdependence theory and an exploration of individual, interpersonal, and contextual effects on the defender participant role. Developmental Review, 38, 222–240. https://doi.org/10.1016/j.dr.2015.08.001
+
+Olweus, D. (1993). Bullying at school: What we know and what we can do. Malden, MA: Blackwell Publishing, 140 pp., $25.00. - Gredler - 2003 - Psychology in the Schools - Wiley Online Library
+
+Science Direct.com (2013), lun.X, White.H https://doi.org/10.1016/j.jeconom.2013.08.016
+
+Quabec.ca (2023) Effects of Stereotypes on Personal Development | Gouvernement du Québec 
+
+
+# 6. Appendix
+
+## Appendix 1: Descriptive Statistics summary for all variables being used
+
+Summary of data frame
+```{r summary, results='asis'}
+
+print(dfSummary(datasets, plain.ascii = FALSE, style = 'grid', graph.magnif = 0.75, valid.col = FALSE, 
+                tmp.img.dir = "/tmp", varnumbers = FALSE, headings = FALSE, 
+                caption = " Summary of data frame"))
+```
+
+## Appendix 2: Entire R Script
+
+```{r, results='hide', warning=TRUE, message=FALSE}
+
+#output:
+  #rmdformats::html_clean:
+    #code_download: yes
+    #toc: yes
+    #toc_depth: 2
+    #toc_float: True
+#editor_options: 
+  #markdown: 
+    #wrap: 72
+#knitr::opts_chunk$set(echo = TRUE)
+
+#Rmarkdown environment
+version[['version.string']]
+
+#calling all necessary libraries 
+library(tidyverse)
+library(ggplot2)
+library(readxl)
+library(modelsummary)
+library(vtable)
+library(summarytools)
+
+#importing data
+original_data <- read.csv('C:/Users/User/OneDrive/Documents/200382074/Research Project/Original Script/Challenge_3470_imputedEMvict2.dat')
+
+data <- read_excel("C:/Users/User/Downloads/Rproj/Rproj/data/data with headings.xlsx")
+
+#Manipulating the data to the variables that i need 
+datasets <- data.frame(data$nsvic_w1, data$nsblame_w1, data$nsblame_w2, data$nbblame_w1, data$nbblame_w2, data$Gendern, data$def_w1, data$Grade)
+
+descriptive <- data.frame(data$nsvic_w1, data$nsblame_w1, data$nbblame_w1, data$Gendern, 
+                   data$Grade, data$ClassID) 
+
+#Renaming Variables 
+datasets <- rename(datasets, 
+                       victimisation_w1 = data.nsvic_w1)
+
+datasets <- rename(datasets, 
+                       selfblame_w1 = data.nsblame_w1) 
+
+datasets <- rename(datasets, 
+                       selfblame_w2 = data.nsblame_w2)
+
+datasets <- rename(datasets, 
+                       bullyblame_w1 = data.nbblame_w1)
+
+datasets <- rename(datasets, 
+                       bullyblame_w2 = data.nbblame_w2)
+
+datasets <- rename(datasets, 
+                       peernominated_defending = data.def_w1)
+
+datasets <- rename(datasets,
+                       Grade = data.Grade)
+
+datasets <- rename(datasets, 
+                       Gender = data.Gendern)
+
+view(datasets)
+
+
+descriptive <- rename(descriptive, 
+                       Gender = data.Gendern)
+
+descriptive <- rename(descriptive,
+                      Victimisation_w1 = data.nsvic_w1)
+
+descriptive <- rename(descriptive,
+                      selfblame_w1 = data.nsblame_w1)
+
+descriptive <- rename(descriptive,
+                      bullyblame_w1 = data.nbblame_w1)
+
+descriptive <- rename(descriptive,
+                      Grade = data.Grade)
+
+descriptive <- rename(descriptive, 
+                      amount = data.ClassID)
+
+#Viewing the variables independently 
+head(datasets$victimisation_w1)
+table(datasets$victimisation_w1)
+
+head(datasets$selfblame_w1)
+table(datasets$selfblame_w1)
+
+head(datasets$selfblame_w2)
+table(datasets$selfblame_w2)
+
+head(datasets$bullyblame_w1)
+table(datasets$bullyblame_w1)
+
+head(datasets$bullyblame_w2)
+table(datasets$bullyblame_w2)
+
+head(datasets$Gender)
+table(datasets$Gender)
+
+head(datasets$peernominated_defending)
+table(datasets$peernominated_defending)
+
+head(datasets$Grade)
+table(datasets$Grade)
+
+#Removing NA 
+datasets$Gender[datasets$Gender <= -9999] <- NA
+datasets <- na.omit(datasets)
+
+summary(datasets$Gender)
+
+#Renaming the Gender Variable 
+descriptive$Gender [descriptive$Gender == 0] <- 'female'
+
+descriptive$Gender [descriptive$Gender == 1] <- 'male'
+
+descriptive$Gender[descriptive$Gender <= -99999] <- NA
+descriptive <- na.omit(descriptive)
+
+#Overview table 
+knitr::kable(datasets[1:10, ], digits = 2, align = 'lccrr', xlabs = 4,
+             caption = "Table 1. Overview of the first 10 rows in the dataset")
+
+#Descriptive Statistic
+sumtable(datasets)
+
+#Bar chart - Gender * Victimisation
+ggplot(descriptive, aes(fill = Gender , y = Victimisation_w1, x = Grade, width = 0.3))+
+  geom_bar (position = 'dodge', stat = 'identity')+
+  ggtitle("The victimisation rate in males and females across grades 4-9")+
+  ylab ('victimisation rate')
+
+#coefficient plot 1
+models <- list()
+models[['female']]<- lm(Victimisation_w1 ~ Grade, descriptive)
+models[['male']]<- lm(Victimisation_w1 ~ Grade, descriptive)
+
+modelplot(models)+
+  geom_vline(xintercept = 0, lty = 2)+
+  labs(title = 'Victimisation rate across both Genders and Grades', 
+       subtitle = 'dependent variable is victimisation_w1',
+       size = 4)+
+  theme_minimal()
+
+#Line plot - Psychological attributes 
+ggplot(descriptive, aes(x = selfblame_w1, y = bullyblame_w1))+
+  geom_point()+
+  geom_smooth(se = FALSE)+
+  facet_grid(. ~ Gender)
+
+#coefficient plot 2
+model2 <- list()
+model2[['female']]<- lm(bullyblame_w1 ~ selfblame_w1, descriptive)
+model2[['male']]<- lm(bullyblame_w1 ~ selfblame_w1, descriptive)
+
+color_map <- c("male" = "darkblue",
+               "female" = "darkred")
+
+
+modelplot(model2)+
+  geom_vline(xintercept = 0, lty = 2)+
+  labs(title = 'Which Gender selfblames more compared to bullyblames', 
+       size = 4)+
+  scale_color_manual(values = color_map)+
+  theme_classic()
+
+
+#LMM model setup
+within1 <- lm(selfblame_w2 ~ selfblame_w1 + Grade + Gender + peernominated_defending + victimisation_w1 + Grade * victimisation_w1, data = datasets)
+
+within2 <- lm(bullyblame_w2 ~ bullyblame_w1 + Grade +  Gender + peernominated_defending + victimisation_w1 + Grade * victimisation_w1, data = datasets)
+
+#Tab model LMM
+sjPlot::tab_model(within1, within2)
+```
